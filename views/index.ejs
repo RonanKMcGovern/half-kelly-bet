@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manifold Markets Kelly Bet Calculator</title>
+    <script>
+        // Function to update the display next to the slider
+        function updateKellyFractionDisplay(value) {
+            document.getElementById('kellyFractionDisplay').textContent = (value * 100).toFixed(0) + '%';
+        }
+
+        // Add event listener when the window loads to initialize the display
+        window.onload = function() {
+            const slider = document.getElementById('kellyFraction');
+            // Initialize display
+            updateKellyFractionDisplay(slider.value);
+            // Update display on input change
+            slider.oninput = function() {
+                updateKellyFractionDisplay(this.value);
+            };
+        };
+    </script>
+</head>
+<body>
+    <h1>Manifold Markets Kelly Bet Calculator</h1>
+    <form action="/calculate" method="post">
+        <label for="netWorth">Net Worth (in Mana):</label>
+        <input type="number" id="netWorth" name="netWorth" required><br><br>
+        <label for="currentOdds">Current Odds (%):</label>
+        <input type="number" id="currentOdds" name="currentOdds" required><br><br>
+        <label for="myOdds">My View of the Odds (%):</label>
+        <input type="number" id="myOdds" name="myOdds" required><br><br>
+        <label for="kellyFraction">Fraction of Kelly Bet:</label>
+        <input type="range" id="kellyFraction" name="kellyFraction" min="0" max="1" step="0.01" required>
+        <span id="kellyFractionDisplay"></span><br><br>
+        <input type="submit" value="Calculate">
+    </form>
+</body>
+</html>
