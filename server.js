@@ -18,8 +18,12 @@ app.post('/calculate', (req, res) => {
     const kellyFraction = parseFloat(req.body.kellyFraction);
 
     const decimalOdds = 1 / currentOdds;
-    // const kellyBet = ((myOdds * (decimalOdds + 1)) - 1) / decimalOdds * netWorth;
-    const kellyBet = (myOdds - (1 - myOdds)/(1/currentOdds -1)) * netWorth;
+    const netDecimalOdds = decimalOdds - 1; // Net odds (b)
+    const probabilityWin = myOdds; // Your estimated probability (p)
+    const probabilityLose = 1 - myOdds; // (q)
+    
+    // Kelly Criterion formula: f = (bp - q) / b
+    const kellyBet = ((netDecimalOdds * probabilityWin) - probabilityLose) / netDecimalOdds * netWorth;
     const adjustedKellyBet = kellyBet * kellyFraction;
 
     res.render('result', { adjustedKellyBet: adjustedKellyBet.toFixed(2) });
